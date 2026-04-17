@@ -10,7 +10,7 @@ export const translations = {
   "nav.getQuote": { en: "Get a Quote", fr: "Demander un devis" },
 
   // Home - Hero
-  "home.badge": { en: "✦ Premium Digital Agency", fr: "✦ Agence Digitale Premium" },
+  "home.badge": { en: "Premium Digital Agency", fr: "Agence Digitale Premium" },
   "home.hero.title1": { en: "We build", fr: "Nous créons des" },
   "home.hero.highlight": { en: "powerful", fr: "expériences" },
   "home.hero.title2": { en: "digital experiences", fr: "digitales puissantes" },

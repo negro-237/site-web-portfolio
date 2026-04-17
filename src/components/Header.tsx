@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@/lib/router";
 import { useState } from "react";
 import { Menu, X, Sun, Moon, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,11 +7,11 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { to: "/" as const, key: "nav.home" as const },
-  { to: "/about" as const, key: "nav.about" as const },
-  { to: "/services" as const, key: "nav.services" as const },
-  { to: "/portfolio" as const, key: "nav.portfolio" as const },
-  { to: "/contact" as const, key: "nav.contact" as const },
+  { to: "/", key: "nav.home" as const },
+  { to: "/about", key: "nav.about" as const },
+  { to: "/services", key: "nav.services" as const },
+  { to: "/portfolio", key: "nav.portfolio" as const },
+  { to: "/contact", key: "nav.contact" as const },
 ];
 
 export function Header() {
@@ -22,6 +22,7 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass">
+      <div className="mono-strip h-px w-full opacity-70" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="text-xl font-bold tracking-tight">

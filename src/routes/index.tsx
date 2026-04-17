@@ -1,22 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
+import { Link } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/SectionHeading";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { ArrowRight, Code, Smartphone, Palette, Megaphone, Star, Quote } from "lucide-react";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Negro Services — We Build Powerful Digital Experiences" },
-      { name: "description", content: "Premium digital agency specializing in web development, mobile apps, UI/UX design, and digital marketing." },
-      { property: "og:title", content: "Negro Services — We Build Powerful Digital Experiences" },
-      { property: "og:description", content: "Premium digital agency specializing in web development, mobile apps, UI/UX design, and digital marketing." },
-    ],
-  }),
-  component: HomePage,
-});
 
 const serviceIcons = [Code, Smartphone, Palette, Megaphone] as const;
 const serviceKeys = ["webdev", "mobile", "design", "marketing"] as const;
@@ -34,7 +21,7 @@ const testimonialAuthors = [
   { name: "Emily Davis", role: "Marketing Director, GrowthCo" },
 ];
 
-function HomePage() {
+export default function HomePage() {
   const { t } = useLanguage();
   const scrollRef = useScrollAnimation();
 
@@ -43,8 +30,9 @@ function HomePage() {
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-glow-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/15 rounded-full blur-3xl animate-glow-pulse" style={{ animationDelay: "1.5s" }} />
+          <div className="mono-pattern absolute inset-0" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-5xl px-4 text-center">
@@ -53,7 +41,6 @@ function HomePage() {
               {t("home.badge")}
             </span>
           </div>
-
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-tight animate-fade-up" style={{ animationDelay: "0.1s" }}>
             {t("home.hero.title1")}{" "}
             <span className="gradient-text">{t("home.hero.highlight")}</span>
@@ -95,7 +82,7 @@ function HomePage() {
               return (
                 <div
                   key={key}
-                  className="group relative p-6 rounded-2xl border border-border bg-card hover-lift cursor-pointer"
+                  className="group mono-card relative p-6 rounded-2xl bg-card hover-lift cursor-pointer"
                 >
                   <div className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center mb-5">
                     <Icon className="h-6 w-6 text-primary-foreground" />
@@ -134,6 +121,7 @@ function HomePage() {
                 className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer hover-lift"
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-80`} />
+                <div className="mono-pattern absolute inset-0 opacity-25" />
                 <div className="absolute inset-0 flex flex-col justify-end p-6">
                   <span className="text-xs font-semibold uppercase tracking-wider text-primary-foreground/70 mb-1">
                     {project.category}

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type DependencyList } from "react";
 
-export function useScrollAnimation() {
+export function useScrollAnimation(deps: DependencyList = []) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function useScrollAnimation() {
     children.forEach((child) => observer.observe(child));
 
     return () => observer.disconnect();
-  }, []);
+  }, deps);
 
   return ref;
 }

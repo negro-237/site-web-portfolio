@@ -12,7 +12,8 @@ export function SectionHeading({ label, title, description, className, align = "
   return (
     <div className={cn("mb-12 md:mb-16", align === "center" && "text-center", className)}>
       {label && (
-        <span className="inline-block text-sm font-semibold tracking-widest uppercase text-primary mb-3">
+        <span className="inline-flex items-center gap-2 text-sm font-semibold tracking-widest uppercase text-primary mb-3">
+          <span className="mono-strip h-1.5 w-8 rounded-full" />
           {label}
         </span>
       )}

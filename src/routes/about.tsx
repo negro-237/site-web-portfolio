@@ -1,20 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { SectionHeading } from "@/components/SectionHeading";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Target, Eye, Heart, Users } from "lucide-react";
-
-export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Us — Negro Services" },
-      { name: "description", content: "Learn about Negro Services — our mission, vision, values, and the team behind your digital success." },
-      { property: "og:title", content: "About Us — Negro Services" },
-      { property: "og:description", content: "Learn about Negro Services — our mission, vision, values, and the team behind your digital success." },
-    ],
-  }),
-  component: AboutPage,
-});
 
 const valueIcons = [Target, Eye, Heart, Users] as const;
 const valueKeys = ["mission", "vision", "passion", "collaboration"] as const;
@@ -26,7 +13,7 @@ const team = [
   { name: "Taylor Kim", role: "Marketing Strategist", initials: "TK" },
 ];
 
-function AboutPage() {
+export default function AboutPage() {
   const { t } = useLanguage();
   const scrollRef = useScrollAnimation();
 
@@ -58,7 +45,7 @@ function AboutPage() {
             {valueKeys.map((key, i) => {
               const Icon = valueIcons[i];
               return (
-                <div key={key} className="p-6 rounded-2xl border border-border bg-card hover-lift text-center">
+                <div key={key} className="mono-card p-6 rounded-2xl bg-card hover-lift text-center">
                   <div className="w-14 h-14 rounded-xl gradient-bg flex items-center justify-center mx-auto mb-5">
                     <Icon className="h-7 w-7 text-primary-foreground" />
                   </div>
@@ -98,7 +85,7 @@ function AboutPage() {
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map((member) => (
-              <div key={member.name} className="p-6 rounded-2xl border border-border bg-card hover-lift text-center">
+              <div key={member.name} className="mono-card p-6 rounded-2xl bg-card hover-lift text-center">
                 <div className="w-20 h-20 rounded-full gradient-bg flex items-center justify-center mx-auto mb-4">
                   <span className="text-xl font-bold text-primary-foreground">{member.initials}</span>
                 </div>

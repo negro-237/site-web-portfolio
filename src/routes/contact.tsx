@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,19 +7,7 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Mail, MapPin, Phone, MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
 
-export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact Us — Negro Services" },
-      { name: "description", content: "Get in touch with Negro Services. Let's discuss your next digital project." },
-      { property: "og:title", content: "Contact Us — Negro Services" },
-      { property: "og:description", content: "Get in touch with Negro Services. Let's discuss your next digital project." },
-    ],
-  }),
-  component: ContactPage,
-});
-
-function ContactPage() {
+export default function ContactPage() {
   const { t } = useLanguage();
   const scrollRef = useScrollAnimation();
   const [submitted, setSubmitted] = useState(false);
@@ -55,7 +42,7 @@ function ContactPage() {
 
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-5 gap-10 scroll-fade">
           <div className="lg:col-span-3">
-            <div className="p-8 rounded-2xl border border-border bg-card">
+            <div className="mono-card p-8 rounded-2xl bg-card">
               {submitted ? (
                 <div className="text-center py-16">
                   <div className="w-16 h-16 rounded-full gradient-bg flex items-center justify-center mx-auto mb-6">
@@ -94,7 +81,7 @@ function ContactPage() {
 
           <div className="lg:col-span-2 space-y-6">
             {contactInfo.map((info) => (
-              <div key={info.label} className="p-6 rounded-2xl border border-border bg-card hover-lift">
+              <div key={info.label} className="mono-card p-6 rounded-2xl bg-card hover-lift">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center shrink-0">
                     <info.icon className="h-5 w-5 text-primary-foreground" />

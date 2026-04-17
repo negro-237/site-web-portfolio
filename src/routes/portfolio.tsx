@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { useState } from "react";
@@ -13,18 +12,6 @@ import projectRealestate from "@/assets/project-realestate.jpg";
 import projectFood from "@/assets/project-food.jpg";
 import projectBrand from "@/assets/project-brand.jpg";
 
-export const Route = createFileRoute("/portfolio")({
-  head: () => ({
-    meta: [
-      { title: "Our Portfolio — Negro Services" },
-      { name: "description", content: "Explore our portfolio of web, mobile, and design projects that showcase our expertise." },
-      { property: "og:title", content: "Our Portfolio — Negro Services" },
-      { property: "og:description", content: "Explore our portfolio of web, mobile, and design projects." },
-    ],
-  }),
-  component: PortfolioPage,
-});
-
 const filterKeys = ["all", "web", "mobile", "design"] as const;
 
 const projects = [
@@ -36,10 +23,10 @@ const projects = [
   { titleKey: "project.brand" as const, descKey: "portfolio.brand.desc" as TranslationKey, category: "design", tech: ["Illustrator", "Brand Strategy", "Print"], image: projectBrand },
 ];
 
-function PortfolioPage() {
+export default function PortfolioPage() {
   const { t } = useLanguage();
-  const scrollRef = useScrollAnimation();
   const [activeFilter, setActiveFilter] = useState<(typeof filterKeys)[number]>("all");
+  const scrollRef = useScrollAnimation([activeFilter]);
   const filtered = activeFilter === "all" ? projects : projects.filter((p) => p.category === activeFilter);
 
   return (
@@ -62,6 +49,7 @@ function PortfolioPage() {
           {filterKeys.map((f) => (
             <button
               key={f}
+              type="button"
               onClick={() => setActiveFilter(f)}
               className={cn(
                 "px-5 py-2 rounded-full text-sm font-medium transition-all duration-200",
@@ -79,7 +67,7 @@ function PortfolioPage() {
           {filtered.map((project) => (
             <div
               key={project.titleKey}
-              className="group rounded-2xl border border-border bg-card overflow-hidden hover-lift scroll-fade"
+              className="group mono-card rounded-2xl bg-card overflow-hidden hover-lift scroll-fade"
             >
               <div className="aspect-[16/10] relative overflow-hidden">
                 <img

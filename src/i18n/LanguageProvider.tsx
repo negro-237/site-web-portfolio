@@ -17,7 +17,8 @@ function detectLocale(): Locale {
 
   // Detect browser language
   if (typeof navigator !== "undefined") {
-    const lang = navigator.language || (navigator as any).userLanguage || "";
+    const legacyNavigator = navigator as Navigator & { userLanguage?: string };
+    const lang = navigator.language || legacyNavigator.userLanguage || "";
     if (lang.startsWith("fr")) return "fr";
   }
 

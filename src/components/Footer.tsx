@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "@/lib/router";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
 export function Footer() {
@@ -6,15 +6,15 @@ export function Footer() {
 
   const footerLinks = {
     [t("footer.services")]: [
-      { label: t("service.webdev.title"), to: "/services" as const },
-      { label: t("service.mobile.title"), to: "/services" as const },
-      { label: t("service.design.title"), to: "/services" as const },
-      { label: t("service.marketing.title"), to: "/services" as const },
+      { label: t("service.webdev.title"), to: "/services" },
+      { label: t("service.mobile.title"), to: "/services" },
+      { label: t("service.design.title"), to: "/services" },
+      { label: t("service.marketing.title"), to: "/services" },
     ],
     [t("footer.company")]: [
-      { label: t("nav.about"), to: "/about" as const },
-      { label: t("nav.portfolio"), to: "/portfolio" as const },
-      { label: t("nav.contact"), to: "/contact" as const },
+      { label: t("nav.about"), to: "/about" },
+      { label: t("nav.portfolio"), to: "/portfolio" },
+      { label: t("nav.contact"), to: "/contact" },
     ],
   };
 

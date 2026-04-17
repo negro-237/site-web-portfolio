@@ -1,31 +1,23 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
+import { Link } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Code, Smartphone, Palette, Megaphone, ArrowRight, Check } from "lucide-react";
 import type { TranslationKey } from "@/i18n/translations";
 
-export const Route = createFileRoute("/services")({
-  head: () => ({
-    meta: [
-      { title: "Our Services — Negro Services" },
-      { name: "description", content: "Web development, mobile apps, UI/UX design, and digital marketing services to grow your business." },
-      { property: "og:title", content: "Our Services — Negro Services" },
-      { property: "og:description", content: "Web development, mobile apps, UI/UX design, and digital marketing services to grow your business." },
-    ],
-  }),
-  component: ServicesPage,
-});
+import serviceDesign from "@/assets/service-design.jpg";
+import serviceMarketing from "@/assets/service-marketing.jpg";
+import serviceMobile from "@/assets/service-mobile.jpg";
+import serviceWebdev from "@/assets/service-webdev.jpg";
 
 const services = [
-  { icon: Code, key: "webdev", featureCount: 6 },
-  { icon: Smartphone, key: "mobile", featureCount: 6 },
-  { icon: Palette, key: "design", featureCount: 6 },
-  { icon: Megaphone, key: "marketing", featureCount: 6 },
+  { icon: Code, key: "webdev", featureCount: 6, image: serviceWebdev },
+  { icon: Smartphone, key: "mobile", featureCount: 6, image: serviceMobile },
+  { icon: Palette, key: "design", featureCount: 6, image: serviceDesign },
+  { icon: Megaphone, key: "marketing", featureCount: 6, image: serviceMarketing },
 ] as const;
 
-function ServicesPage() {
+export default function ServicesPage() {
   const { t } = useLanguage();
   const scrollRef = useScrollAnimation();
 
@@ -78,7 +70,19 @@ function ServicesPage() {
                 </Link>
               </div>
               <div className="flex-1 w-full">
-                <div className="aspect-[4/3] rounded-2xl gradient-bg opacity-20" />
+                <div className="mono-card relative aspect-[4/3] overflow-hidden rounded-2xl bg-card">
+                  <img
+                    src={service.image}
+                    alt={t(`services.${service.key}.title` as TranslationKey)}
+                    width={900}
+                    height={675}
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-background/70 via-background/10 to-transparent" />
+                  <div className="mono-pattern absolute inset-0 opacity-35" />
+                  <div className="absolute inset-6 rounded-2xl border border-primary-foreground/25" />
+                </div>
               </div>
             </div>
           ))}
