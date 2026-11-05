@@ -1,101 +1,81 @@
-import { SectionHeading } from "@/components/SectionHeading";
-import { useLanguage } from "@/i18n/LanguageProvider";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import { Target, Eye, Heart, Users } from "lucide-react";
-
-const valueIcons = [Target, Eye, Heart, Users] as const;
-const valueKeys = ["mission", "vision", "passion", "collaboration"] as const;
-
-const team = [
-  { name: "Alex Rivera", role: "CEO & Founder", initials: "AR" },
-  { name: "Jordan Lee", role: "Lead Developer", initials: "JL" },
-  { name: "Sam Patel", role: "Creative Director", initials: "SP" },
-  { name: "Taylor Kim", role: "Marketing Strategist", initials: "TK" },
-];
-
+import { Link } from '@/lib/router'
+import { useLanguage } from '@/i18n/LanguageProvider'
+import { ArrowUpRight } from 'lucide-react'
 export default function AboutPage() {
-  const { t } = useLanguage();
-  const scrollRef = useScrollAnimation();
-
+  const { locale } = useLanguage()
+  const fr = locale === 'fr'
   return (
-    <div className="pt-20 min-h-screen" ref={scrollRef}>
-      <section className="section-padding scroll-fade">
-        <div className="mx-auto max-w-4xl text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20 mb-6">
-            {t("about.badge")}
-          </span>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
-            {t("about.title1")}{" "}
-            <span className="gradient-text">{t("about.highlight")}</span>
-          </h1>
-          <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {t("about.intro")}
+    <div className="editorial-wrap about-page">
+      <p className="eyebrow">
+        {fr ? 'À PROPOS / NEGRO SERVICES' : 'ABOUT / NEGRO SERVICES'}
+      </p>
+      <h1>
+        {fr ? 'Une identité forte.' : 'A strong identity.'}
+        <br />
+        <span className="serif">
+          {fr ? 'Une approche personnelle.' : 'A personal approach.'}
+        </span>
+      </h1>
+      <p className="about-lead">
+        {fr
+          ? 'Negro Services est une entreprise indépendante de services numériques. Elle accompagne les projets de sites web, d’applications, de design et de communication digitale.'
+          : 'Negro Services is an independent digital services business supporting websites, apps, design and digital communication projects.'}
+      </p>
+      <div className="about-story">
+        <span className="brand-stamp" aria-hidden="true">
+          N.
+        </span>
+        <div>
+          <p className="eyebrow">{fr ? 'LE SENS DU NOM' : 'BEHIND THE NAME'}</p>
+          <h2>
+            {fr ? 'Une fierté qui' : 'Pride that'}
+            <br />
+            <span className="serif">{fr ? 'se voit.' : 'shows.'}</span>
+          </h2>
+          <p>
+            {fr
+              ? 'Le nom Negro Services est un choix affirmé pour mettre en avant l’identité noire. Le noir occupe ainsi une place centrale dans notre univers visuel : il exprime notre ancrage et donne à notre marque sa singularité.'
+              : 'The name Negro Services is a deliberate choice to celebrate Black identity. Black is central to our visual world: it expresses our roots and gives our brand its character.'}
+          </p>
+          <p>
+            {fr
+              ? 'Cette identité nourrit une approche attentive au sens, à la lisibilité et au détail. Chaque projet commence par une discussion pour comprendre votre activité et définir une réponse adaptée.'
+              : 'This identity informs an approach focused on meaning, clarity and detail. Every project begins with a conversation to understand your business and define a suitable response.'}
           </p>
         </div>
-      </section>
-
-      <section className="section-padding bg-muted/30 scroll-fade">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            label={t("about.values.label")}
-            title={t("about.values.title")}
-            description={t("about.values.description")}
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {valueKeys.map((key, i) => {
-              const Icon = valueIcons[i];
-              return (
-                <div key={key} className="mono-card p-6 rounded-2xl bg-card hover-lift text-center">
-                  <div className="w-14 h-14 rounded-xl gradient-bg flex items-center justify-center mx-auto mb-5">
-                    <Icon className="h-7 w-7 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{t(`about.${key}.title`)}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{t(`about.${key}.desc`)}</p>
-                </div>
-              );
-            })}
+      </div>
+      <div className="process-grid about-values">
+        {(fr
+          ? [
+              [
+                'Écoute',
+                'Comprendre votre besoin avant de proposer une solution.',
+              ],
+              [
+                'Clarté',
+                'Définir le périmètre, les étapes et les livrables ensemble.',
+              ],
+              [
+                'Soin',
+                'Porter la même attention au fonctionnement et à la présentation.',
+              ],
+            ]
+          : [
+              ['Listen', 'Understand your needs before proposing a solution.'],
+              ['Clarify', 'Define the scope, steps and deliverables together.'],
+              ['Care', 'Give equal attention to function and presentation.'],
+            ]
+        ).map(([title, desc]) => (
+          <div key={title}>
+            <h3>{title}</h3>
+            <p>{desc}</p>
           </div>
-        </div>
-      </section>
-
-      <section className="section-padding scroll-fade">
-        <div className="mx-auto max-w-5xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { value: "150+", key: "about.stats.projects" as const },
-              { value: "50+", key: "about.stats.clients" as const },
-              { value: "8+", key: "about.stats.years" as const },
-              { value: "15+", key: "about.stats.team" as const },
-            ].map((stat) => (
-              <div key={stat.key}>
-                <p className="text-4xl md:text-5xl font-bold gradient-text">{stat.value}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{t(stat.key)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-padding bg-muted/30 scroll-fade">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            label={t("about.team.label")}
-            title={t("about.team.title")}
-            description={t("about.team.description")}
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member) => (
-              <div key={member.name} className="mono-card p-6 rounded-2xl bg-card hover-lift text-center">
-                <div className="w-20 h-20 rounded-full gradient-bg flex items-center justify-center mx-auto mb-4">
-                  <span className="text-xl font-bold text-primary-foreground">{member.initials}</span>
-                </div>
-                <h3 className="font-semibold text-foreground">{member.name}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{member.role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        ))}
+      </div>
+      <Link to="/contact" className="action-primary">
+        {fr ? 'Parlons de votre projet' : 'Let’s discuss your project'}{' '}
+        <ArrowUpRight size={18} />
+      </Link>
     </div>
-  );
+  )
 }

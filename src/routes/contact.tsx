@@ -1,127 +1,158 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { useLanguage } from "@/i18n/LanguageProvider";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import { Mail, MapPin, Phone, MessageCircle, Send } from "lucide-react";
-import { useState } from "react";
-
+import { useState, type FormEvent } from 'react'
+import { ArrowUpRight, Mail, Phone, MapPin, MessageCircle } from 'lucide-react'
+import { useLanguage } from '@/i18n/LanguageProvider'
+import { contact, createEmailDraft } from '@/lib/contact'
 export default function ContactPage() {
-  const { t } = useLanguage();
-  const scrollRef = useScrollAnimation();
-  const [submitted, setSubmitted] = useState(false);
-
-  const contactInfo = [
-    { icon: Mail, label: t("contact.form.email"), value: "contact@negro-services.com" },
-    { icon: Phone, label: "Phone", value: "+237 678 66 08 00" },
-    { icon: MapPin, label: "Location", value: "Douala Akwa, CA" },
-  ];
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-  };
-
+  const { locale, t } = useLanguage()
+  const fr = locale === 'fr'
+  const [prepared, setPrepared] = useState(false)
+  function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const fields = new FormData(e.currentTarget)
+    const data = Object.fromEntries(
+      ['name', 'email', 'subject', 'message'].map((k) => [
+        k,
+        String(fields.get(k) ?? '').trim(),
+      ]),
+    ) as { name: string; email: string; subject: string; message: string }
+    window.location.href = createEmailDraft(data)
+    setPrepared(true)
+  }
   return (
-    <div className="pt-20 min-h-screen" ref={scrollRef}>
-      <section className="section-padding">
-        <div className="mx-auto max-w-4xl text-center mb-16 scroll-fade">
-          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20 mb-6">
-            {t("contact.badge")}
-          </span>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
-            {t("contact.title1")}{" "}
-            <span className="gradient-text">{t("contact.highlight")}</span>
-          </h1>
-          <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t("contact.subtitle")}
+    <div className="editorial-wrap contact-page">
+      <p className="eyebrow">
+        {fr ? 'CONTACT / UN PREMIER ÉCHANGE' : 'CONTACT / START A CONVERSATION'}
+      </p>
+      <h1>
+        {fr ? 'Parlons de' : 'Let’s talk about'}
+        <br />
+        <span className="serif">{fr ? 'votre projet.' : 'your project.'}</span>
+      </h1>
+      <p className="about-lead">
+        {fr
+          ? 'Une idée à concrétiser, une présence à repenser ? Présentez votre besoin et définissons ensemble la suite.'
+          : 'An idea to bring to life, a presence to rethink? Tell us what you need and let’s define the next steps.'}
+      </p>
+      <div className="contact-layout">
+        <form onSubmit={submit} className="contact-form">
+          <h2>
+            {fr
+              ? 'Quelques mots pour commencer.'
+              : 'A few words to get started.'}
+          </h2>
+          <div className="form-two">
+            <label htmlFor="name">
+              {t('contact.form.name')}
+              <input
+                id="name"
+                name="name"
+                autoComplete="name"
+                required
+                maxLength={120}
+                placeholder={t('contact.form.namePlaceholder')}
+              />
+            </label>
+            <label htmlFor="email">
+              {t('contact.form.email')}
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                maxLength={254}
+                placeholder={t('contact.form.emailPlaceholder')}
+              />
+            </label>
+          </div>
+          <label htmlFor="subject">
+            {t('contact.form.subject')}
+            <select id="subject" name="subject" required defaultValue="">
+              <option value="" disabled>
+                {fr ? 'Choisissez un service' : 'Choose a service'}
+              </option>
+              {['webdev', 'mobile', 'design', 'marketing'].map((k) => (
+                <option key={k}>
+                  {t(`service.${k}.title` as Parameters<typeof t>[0])}
+                </option>
+              ))}
+              <option>
+                {fr
+                  ? 'Autre / À définir ensemble'
+                  : 'Other / Let’s define it together'}
+              </option>
+            </select>
+          </label>
+          <label htmlFor="message">
+            {t('contact.form.message')}
+            <textarea
+              id="message"
+              name="message"
+              rows={5}
+              required
+              maxLength={4000}
+              placeholder={t('contact.form.messagePlaceholder')}
+            />
+          </label>
+          <p className="form-note">
+            {fr
+              ? 'Ce formulaire prépare un e-mail dans votre application de messagerie. Vous pourrez le relire et l’envoyer vous-même. Aucune donnée n’est enregistrée par ce formulaire.'
+              : 'This form prepares an email in your mail app. You can review and send it yourself. This form does not store your information.'}
           </p>
-        </div>
-
-        <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-5 gap-10 scroll-fade">
-          <div className="lg:col-span-3">
-            <div className="mono-card p-8 rounded-2xl bg-card">
-              {submitted ? (
-                <div className="text-center py-16">
-                  <div className="w-16 h-16 rounded-full gradient-bg flex items-center justify-center mx-auto mb-6">
-                    <Send className="h-8 w-8 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-foreground">{t("contact.form.success.title")}</h3>
-                  <p className="mt-2 text-muted-foreground">{t("contact.form.success.desc")}</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">{t("contact.form.name")}</Label>
-                      <Input id="name" placeholder={t("contact.form.namePlaceholder")} required />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">{t("contact.form.email")}</Label>
-                      <Input id="email" type="email" placeholder={t("contact.form.emailPlaceholder")} required />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">{t("contact.form.subject")}</Label>
-                    <Input id="subject" placeholder={t("contact.form.subjectPlaceholder")} required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="message">{t("contact.form.message")}</Label>
-                    <Textarea id="message" placeholder={t("contact.form.messagePlaceholder")} rows={5} required />
-                  </div>
-                  <Button variant="hero" size="lg" type="submit" className="w-full">
-                    {t("contact.form.submit")} <Send className="ml-2 h-4 w-4" />
-                  </Button>
-                </form>
-              )}
-            </div>
+          <button type="submit" className="action-primary">
+            {fr ? 'Préparer mon e-mail' : 'Prepare my email'}
+            <ArrowUpRight size={18} />
+          </button>
+          {prepared && (
+            <p className="form-status" role="status">
+              {fr
+                ? 'Demande préparée. Si votre messagerie ne s’ouvre pas, écrivez directement à contact@negro-services.com ou contactez-nous sur WhatsApp. Aucun message n’a été envoyé automatiquement.'
+                : 'Your draft is ready. If your mail app does not open, email contact@negro-services.com or use WhatsApp. No message has been sent automatically.'}
+            </p>
+          )}
+        </form>
+        <aside className="contact-aside">
+          <p className="eyebrow">{fr ? 'EN DIRECT' : 'DIRECT CONTACT'}</p>
+          <a href={`mailto:${contact.email}`}>
+            <Mail size={20} />
+            <span>
+              <small>E-mail</small>
+              {contact.email}
+            </span>
+            <ArrowUpRight size={17} />
+          </a>
+          <a href={contact.phoneHref}>
+            <Phone size={20} />
+            <span>
+              <small>{fr ? 'Téléphone' : 'Phone'}</small>
+              {contact.phone}
+            </span>
+            <ArrowUpRight size={17} />
+          </a>
+          <div className="contact-location">
+            <MapPin size={20} />
+            <span>
+              <small>{fr ? 'Localisation' : 'Location'}</small>Akwa, Douala —{' '}
+              {fr ? 'Cameroun' : 'Cameroon'}
+            </span>
           </div>
-
-          <div className="lg:col-span-2 space-y-6">
-            {contactInfo.map((info) => (
-              <div key={info.label} className="mono-card p-6 rounded-2xl bg-card hover-lift">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center shrink-0">
-                    <info.icon className="h-5 w-5 text-primary-foreground" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">{info.label}</p>
-                    <p className="font-medium text-foreground">{info.value}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            <a
-              href="https://wa.me/23778660800?text=Hello%2C%20I%27d%20like%20to%20discuss%20a%20project"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block"
-            >
-              <div className="p-6 rounded-2xl bg-[#25D366]/10 border border-[#25D366]/20 hover-lift">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-[#25D366] flex items-center justify-center shrink-0">
-                    <MessageCircle className="h-5 w-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">{t("contact.whatsapp")}</p>
-                    <p className="text-sm text-muted-foreground">{t("contact.whatsapp.desc")}</p>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <div className="aspect-[4/3] rounded-2xl border border-border bg-muted flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">Douala Akwa, CA</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          <a
+            href={contact.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whatsapp-contact"
+          >
+            <MessageCircle size={20} />
+            <span>
+              <small>
+                {fr ? 'Vous préférez échanger ?' : 'Prefer a conversation?'}
+              </small>
+              {t('contact.whatsapp')}
+            </span>
+            <ArrowUpRight size={17} />
+          </a>
+        </aside>
+      </div>
     </div>
-  );
+  )
 }

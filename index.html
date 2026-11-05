@@ -1,23 +1,39 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="fr" class="dark">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Restore the saved appearance before the first paint.
+      try {
+        const theme =
+          localStorage.getItem('negro-services-theme') === 'light'
+            ? 'light'
+            : 'dark'
+        document.documentElement.classList.toggle('dark', theme === 'dark')
+        document.documentElement.classList.toggle('light', theme === 'light')
+        document.documentElement.style.colorScheme = theme
+      } catch {
+        /* Keep the default dark appearance. */
+      }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Premium digital agency specializing in web development, mobile apps, UI/UX design, and digital marketing."
-    />
     <meta name="author" content="Negro Services" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="icon" href="/favicon.ico" />
+    <meta name="theme-color" content="#0d0e0e" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     />
-    <title>Negro Services - Premium Digital Agency</title>
+
+    <!--seo:start-->
+    <title>Création de sites web à Douala | Negro Services</title>
+    <meta
+      name="description"
+      content="Negro Services, studio digital indépendant à Douala : sites web, applications mobiles, design UI/UX et communication digitale. Parlons de votre projet."
+    />
+    <!--seo:end-->
   </head>
   <body>
     <div id="root"></div>

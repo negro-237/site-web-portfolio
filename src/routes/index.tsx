@@ -1,216 +1,340 @@
-import { Link } from "@/lib/router";
-import { Button } from "@/components/ui/button";
-import { SectionHeading } from "@/components/SectionHeading";
-import { useLanguage } from "@/i18n/LanguageProvider";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import { ArrowRight, Code, Smartphone, Palette, Megaphone, Star, Quote } from "lucide-react";
-
-const serviceIcons = [Code, Smartphone, Palette, Megaphone] as const;
-const serviceKeys = ["webdev", "mobile", "design", "marketing"] as const;
-
-const projectKeys = [
-  { key: "ecommerce" as const, category: "Web", color: "from-primary to-accent" },
-  { key: "fitness" as const, category: "Mobile", color: "from-accent to-primary" },
-  { key: "saas" as const, category: "Design", color: "from-primary/80 to-accent/80" },
-];
-
-const testimonialKeys = ["1", "2", "3"] as const;
-const testimonialAuthors = [
-  { name: "Sarah Johnson", role: "CEO, TechStart" },
-  { name: "Michael Chen", role: "Founder, AppVenture" },
-  { name: "Emily Davis", role: "Marketing Director, GrowthCo" },
-];
-
+import {
+  ArrowDown,
+  ArrowUpRight,
+  Code2,
+  Smartphone,
+  Palette,
+  Megaphone,
+} from 'lucide-react'
+import { Link } from '@/lib/router'
+import { useLanguage } from '@/i18n/LanguageProvider'
+import webImage from '@/assets/project-ecommerce.jpg'
+import designImage from '@/assets/project-brand.jpg'
+const keys = ['webdev', 'mobile', 'design', 'marketing'] as const
+const icons = [Code2, Smartphone, Palette, Megaphone]
 export default function HomePage() {
-  const { t } = useLanguage();
-  const scrollRef = useScrollAnimation();
-
+  const { locale, t } = useLanguage()
+  const fr = locale === 'fr'
   return (
-    <div className="min-h-screen" ref={scrollRef}>
-      {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="mono-pattern absolute inset-0" />
-          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
-        </div>
-
-        <div className="relative z-10 mx-auto max-w-5xl px-4 text-center">
-          <div className="animate-fade-up">
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20 mb-8">
-              {t("home.badge")}
-            </span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-tight animate-fade-up" style={{ animationDelay: "0.1s" }}>
-            {t("home.hero.title1")}{" "}
-            <span className="gradient-text">{t("home.hero.highlight")}</span>
+    <div className="home-page">
+      <section className="hero editorial-wrap">
+        <div className="hero-copy">
+          <p className="eyebrow">
+            <span className="brand-dot" />{' '}
+            {fr ? 'STUDIO DIGITAL À DOUALA' : 'DIGITAL STUDIO IN DOUALA'}
+          </p>
+          <h1>
+            {fr ? 'Votre ambition.' : 'Your ambition.'}
             <br />
-            {t("home.hero.title2")}
+            <span>{fr ? 'Notre empreinte' : 'Our digital'}</span>
+            <br />
+            <span className="hero-serif">
+              {fr ? 'digitale.' : 'signature.'}
+            </span>
           </h1>
-
-          <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-up" style={{ animationDelay: "0.2s" }}>
-            {t("home.hero.subtitle")}
+          <p className="hero-description">
+            {fr
+              ? 'Negro Services, studio digital indépendant à Douala, crée vos sites web, applications et identités visuelles. Une présence numérique pensée pour votre activité.'
+              : 'Negro Services is an independent digital studio in Douala for websites, apps and visual identity. A digital presence shaped around your business.'}
           </p>
-
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up" style={{ animationDelay: "0.3s" }}>
-            <Link to="/contact">
-              <Button variant="hero" size="xl">
-                {t("home.hero.cta1")} <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+          <div className="hero-actions">
+            <Link className="action-primary" to="/contact">
+              {fr ? 'Parlons de votre projet' : 'Let’s discuss your project'}{' '}
+              <ArrowUpRight size={19} />
             </Link>
-            <Link to="/portfolio">
-              <Button variant="glass" size="xl">
-                {t("home.hero.cta2")}
-              </Button>
+            <Link className="text-link" to="/services">
+              {fr ? 'Explorer les services' : 'Explore services'}{' '}
+              <ArrowUpRight size={17} />
             </Link>
           </div>
+          <div className="hero-caption">
+            {fr
+              ? 'Identité affirmée. Conception réfléchie. Relation directe.'
+              : 'Distinct identity. Thoughtful design. Direct collaboration.'}
+          </div>
+        </div>
+        <div className="hero-art" aria-hidden="true">
+          <div className="art-top">
+            <span>NEGRO SERVICES</span>
+            <span>DIGITAL & DESIGN</span>
+          </div>
+          <div className="monogram">
+            N<span>.</span>
+          </div>
+          <div className="art-orbit" />
+          <div className="art-bottom">
+            <span>
+              {fr
+                ? 'UNE IDENTITÉ. UNE SIGNATURE.'
+                : 'ONE IDENTITY. ONE SIGNATURE.'}
+            </span>
+            <span>01 / NS</span>
+          </div>
+        </div>
+        <div className="hero-baseline">
+          <span>
+            {fr
+              ? 'ANCRÉ DANS L’IDENTITÉ. TOURNÉ VERS VOTRE AVENIR.'
+              : 'ROOTED IN IDENTITY. FOCUSED ON YOUR FUTURE.'}
+          </span>
+          <a
+            href="#expertises"
+            aria-label={
+              fr ? 'Découvrir les expertises' : 'Discover our expertise'
+            }
+          >
+            <ArrowDown size={18} />
+          </a>
         </div>
       </section>
-
-      {/* Services */}
-      <section className="section-padding scroll-fade">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            label={t("home.services.label")}
-            title={t("home.services.title")}
-            description={t("home.services.description")}
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {serviceKeys.map((key, i) => {
-              const Icon = serviceIcons[i];
-              return (
-                <div
-                  key={key}
-                  className="group mono-card relative p-6 rounded-2xl bg-card hover-lift cursor-pointer"
-                >
-                  <div className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center mb-5">
-                    <Icon className="h-6 w-6 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{t(`service.${key}.title`)}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{t(`service.${key}.desc`)}</p>
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-10 text-center">
-            <Link to="/services">
-              <Button variant="outline" size="lg">
-                {t("home.services.cta")} <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Projects */}
-      <section className="section-padding bg-muted/30 scroll-fade">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            label={t("home.projects.label")}
-            title={t("home.projects.title")}
-            description={t("home.projects.description")}
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {projectKeys.map((project) => (
-              <div
-                key={project.key}
-                className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer hover-lift"
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-80`} />
-                <div className="mono-pattern absolute inset-0 opacity-25" />
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-primary-foreground/70 mb-1">
-                    {project.category}
-                  </span>
-                  <h3 className="text-xl font-bold text-primary-foreground">{t(`project.${project.key}`)}</h3>
-                </div>
-                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors duration-300" />
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 text-center">
-            <Link to="/portfolio">
-              <Button variant="outline" size="lg">
-                {t("home.projects.cta")} <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="section-padding scroll-fade">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            label={t("home.testimonials.label")}
-            title={t("home.testimonials.title")}
-            description={t("home.testimonials.description")}
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonialKeys.map((key, i) => (
-              <div key={key} className="p-6 rounded-2xl border border-border bg-card hover-lift">
-                <Quote className="h-8 w-8 text-primary/30 mb-4" />
-                <p className="text-muted-foreground leading-relaxed mb-6">{t(`testimonial.${key}.text`)}</p>
-                <div className="flex items-center gap-1 mb-3">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="h-4 w-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="font-semibold text-foreground">{testimonialAuthors[i].name}</p>
-                <p className="text-sm text-muted-foreground">{testimonialAuthors[i].role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Trusted By */}
-      <section className="section-padding bg-muted/30 scroll-fade">
-        <div className="mx-auto max-w-7xl text-center">
-          <p className="text-sm font-semibold tracking-widest uppercase text-muted-foreground mb-8">
-            {t("home.trusted")}
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-12">
-            {["TechCorp", "InnovateLab", "StartupX", "DigitalFirst", "GrowthCo"].map((brand) => (
-              <span
-                key={brand}
-                className="text-2xl font-bold text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors duration-200"
-              >
-                {brand}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="section-padding relative overflow-hidden scroll-fade">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl" />
-        </div>
-        <div className="relative z-10 mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">
-            {t("home.cta.title1")}{" "}
-            <span className="gradient-text">{t("home.cta.highlight")}</span>
+      <section id="expertises" className="editorial-section editorial-wrap">
+        <div className="section-intro">
+          <p className="eyebrow">01 / {fr ? 'LES EXPERTISES' : 'EXPERTISE'}</p>
+          <h2>
+            {fr ? 'De l’idée à' : 'From the idea to'}
+            <br />
+            <span className="serif">
+              {fr ? 'sa réalisation.' : 'the real thing.'}
+            </span>
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            {t("home.cta.subtitle")}
+          <p>
+            {fr
+              ? 'Un accompagnement adapté à votre activité, à vos priorités et aux personnes que vous souhaitez toucher.'
+              : 'Support shaped around your business, your priorities and the people you want to reach.'}
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/contact">
-              <Button variant="hero" size="xl">
-                {t("home.cta.button")} <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+        </div>
+        <div className="expertise-list">
+          {keys.map((key, i) => {
+            const Icon = icons[i]
+            return (
+              <Link to="/services" key={key} className="expertise-row">
+                <span className="row-number">0{i + 1}</span>
+                <Icon size={24} strokeWidth={1.4} />
+                <div>
+                  <h3>{t(`service.${key}.title`)}</h3>
+                  <p>{t(`service.${key}.desc`)}</p>
+                </div>
+                <ArrowUpRight className="row-arrow" size={22} />
+              </Link>
+            )
+          })}
+        </div>
+      </section>
+      <section className="identity-band">
+        <div className="editorial-wrap identity-inner">
+          <p className="eyebrow">{fr ? 'NOTRE SIGNATURE' : 'OUR SIGNATURE'}</p>
+          <h2>
+            {fr ? 'Le noir comme identité.' : 'Black as an identity.'}
+            <br />
+            <span className="serif">
+              {fr ? 'Le détail comme exigence.' : 'Detail as a commitment.'}
+            </span>
+          </h2>
+          <div>
+            <p>
+              {fr
+                ? 'Negro Services met à l’honneur l’identité noire. Notre univers sombre en est l’expression : une présence affirmée, sobre et singulière, au service de votre projet.'
+                : 'Negro Services celebrates Black identity. Our dark visual world expresses it: a confident, considered and distinctive presence in service of your project.'}
+            </p>
+            <Link className="text-link" to="/about">
+              {fr ? 'Découvrir notre histoire' : 'Discover our story'}{' '}
+              <ArrowUpRight size={18} />
             </Link>
           </div>
         </div>
+      </section>
+      <section className="editorial-section editorial-wrap">
+        <div className="section-topline">
+          <div>
+            <p className="eyebrow">
+              02 / {fr ? 'EXPLORATIONS CRÉATIVES' : 'CREATIVE EXPLORATIONS'}
+            </p>
+            <h2>
+              {fr ? 'Des idées qui' : 'Ideas that'}{' '}
+              <span className="serif">
+                {fr ? 'prennent forme.' : 'take shape.'}
+              </span>
+            </h2>
+          </div>
+          <Link className="text-link" to="/portfolio">
+            {fr ? 'Explorer le portfolio' : 'Explore the portfolio'}{' '}
+            <ArrowUpRight size={18} />
+          </Link>
+        </div>
+        <p className="section-note">
+          {fr
+            ? 'Aperçus de concepts illustratifs : des pistes pour imaginer votre prochain projet.'
+            : 'Illustrative concepts: inspiration for your next project.'}
+        </p>
+        <div className="project-pair">
+          {[
+            {
+              image: webImage,
+              title: fr
+                ? 'Une boutique, une expérience.'
+                : 'A store. An experience.',
+              type: 'WEB / E-COMMERCE',
+            },
+            {
+              image: designImage,
+              title: fr
+                ? 'Une marque qui se distingue.'
+                : 'A brand that stands apart.',
+              type: fr
+                ? 'DESIGN / IDENTITÉ VISUELLE'
+                : 'DESIGN / VISUAL IDENTITY',
+            },
+          ].map((p) => (
+            <Link to="/portfolio" className="project-preview" key={p.type}>
+              <div className="project-image">
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  width={800}
+                  height={512}
+                  loading="lazy"
+                />
+                <span>CONCEPT</span>
+              </div>
+              <div className="project-caption">
+                <div>
+                  <p className="eyebrow">{p.type}</p>
+                  <h3>{p.title}</h3>
+                </div>
+                <ArrowUpRight size={24} />
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+      <section className="editorial-section editorial-wrap process-section">
+        <div>
+          <p className="eyebrow">03 / {fr ? 'LA MÉTHODE' : 'THE PROCESS'}</p>
+          <h2>
+            {fr ? 'Un projet clair.' : 'A clear project.'}
+            <br />
+            <span className="serif">
+              {fr ? 'À chaque étape.' : 'At every step.'}
+            </span>
+          </h2>
+        </div>
+        <div className="process-grid">
+          {(fr
+            ? [
+                [
+                  'Échanger',
+                  'Nous précisons ensemble votre besoin, votre public et vos objectifs.',
+                ],
+                [
+                  'Concevoir',
+                  'Nous définissons le périmètre et la direction visuelle avant la réalisation.',
+                ],
+                [
+                  'Réaliser',
+                  'Votre projet prend forme, avec des points de validation jusqu’à la livraison.',
+                ],
+              ]
+            : [
+                [
+                  'Discover',
+                  'We clarify your needs, audience and goals together.',
+                ],
+                [
+                  'Design',
+                  'We define the scope and visual direction before production.',
+                ],
+                [
+                  'Build',
+                  'Your project takes shape, with review points through to delivery.',
+                ],
+              ]
+          ).map(([title, desc], i) => (
+            <div key={title}>
+              <span className="row-number">0{i + 1}</span>
+              <h3>{title}</h3>
+              <p>{desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="editorial-section editorial-wrap faq-section">
+        <div className="section-intro">
+          <p className="eyebrow">
+            {fr ? 'QUESTIONS FRÉQUENTES' : 'FREQUENT QUESTIONS'}
+          </p>
+          <h2>
+            {fr ? 'Votre projet,' : 'Your project,'}
+            <br />
+            <span className="serif">
+              {fr ? 'en pratique.' : 'in practice.'}
+            </span>
+          </h2>
+        </div>
+        <div className="faq-list">
+          {(fr
+            ? [
+                [
+                  'Quels projets peut-on confier à Negro Services ?',
+                  'Les services couvrent les sites vitrines, boutiques en ligne, applications web et mobiles, interfaces UI/UX et communication digitale. Le périmètre est défini ensemble selon vos besoins.',
+                ],
+                [
+                  'Comment demander un devis pour un site web ?',
+                  'Présentez votre activité, les pages ou fonctionnalités souhaitées, votre budget indicatif et votre calendrier. Contactez Negro Services par e-mail, téléphone ou WhatsApp depuis la page Contact.',
+                ],
+                [
+                  'Quel budget et quel délai prévoir ?',
+                  'Le budget et le calendrier dépendent du contenu, des fonctionnalités et des livrables. Ils sont précisés après un premier échange et le cadrage du projet.',
+                ],
+                [
+                  'Où se trouve Negro Services ?',
+                  'Negro Services est situé à Akwa, Douala, au Cameroun. Les coordonnées de contact sont disponibles sur le site pour discuter de votre projet.',
+                ],
+              ]
+            : [
+                [
+                  'What projects can Negro Services help with?',
+                  'Services cover business websites, online stores, web and mobile applications, UI/UX interfaces and digital communication. We define the scope together around your needs.',
+                ],
+                [
+                  'How do I request a website quote?',
+                  'Tell us about your business, the pages or features you need, your indicative budget and your timeline. Reach Negro Services by email, phone or WhatsApp through the Contact page.',
+                ],
+                [
+                  'What budget and timeline should I expect?',
+                  'Budget and timing depend on content, features and deliverables. They are defined after an initial conversation and project scoping.',
+                ],
+                [
+                  'Where is Negro Services located?',
+                  'Negro Services is located in Akwa, Douala, Cameroon. Use the contact details on this website to discuss your project.',
+                ],
+              ]
+          ).map(([question, answer]) => (
+            <details key={question}>
+              <summary>
+                {question}
+                <span aria-hidden="true">+</span>
+              </summary>
+              <p>{answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+      <section className="closing-cta editorial-wrap">
+        <p className="eyebrow">
+          {fr ? 'ET SI ON COMMENÇAIT ?' : 'LET’S GET STARTED'}
+        </p>
+        <h2>
+          {fr ? 'Votre prochain chapitre' : 'Your next chapter'}
+          <br />
+          <span className="serif">
+            {fr ? 'se construit ici.' : 'starts here.'}
+          </span>
+        </h2>
+        <Link to="/contact" className="action-primary">
+          {fr ? 'Discutons de votre projet' : 'Let’s discuss your project'}{' '}
+          <ArrowUpRight size={20} />
+        </Link>
       </section>
     </div>
-  );
+  )
 }

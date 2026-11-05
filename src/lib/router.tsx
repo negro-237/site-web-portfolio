@@ -1,3 +1,4 @@
+import { normalizePath } from './paths'
 import {
   createContext,
   useCallback,
@@ -5,64 +6,75 @@ import {
   useEffect,
   useMemo,
   useState,
-} from "react";
+} from 'react'
 
 type RouterContextValue = {
-  pathname: string;
-  navigate: (to: string) => void;
-};
-
-type LinkProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
-  to: string;
-};
-
-const RouterContext = createContext<RouterContextValue | undefined>(undefined);
-
-function normalizePath(path: string) {
-  return path === "" ? "/" : path.replace(/\/+$/, "") || "/";
+  pathname: string
+  navigate: (to: string) => void
 }
 
-export function RouterProvider({ children }: { children: React.ReactNode }) {
-  const [pathname, setPathname] = useState(() => normalizePath(window.location.pathname));
+type LinkProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+  to: string
+}
+
+const RouterContext = createContext<RouterContextValue | undefined>(undefined)
+
+export function RouterProvider({
+  children,
+  initialPath,
+}: {
+  children: React.ReactNode
+  initialPath?: string
+}) {
+  const [pathname, setPathname] = useState(() =>
+    normalizePath(
+      initialPath ??
+        (typeof window === 'undefined' ? '/' : window.location.pathname),
+    ),
+  )
 
   useEffect(() => {
-    const handlePopState = () => setPathname(normalizePath(window.location.pathname));
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, []);
+    const handlePopState = () =>
+      setPathname(normalizePath(window.location.pathname))
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
 
   const navigate = useCallback(
     (to: string) => {
-      const nextPath = normalizePath(to);
-      if (nextPath === pathname) return;
+      const nextPath = normalizePath(to)
+      if (nextPath === pathname) return
 
-      window.history.pushState({}, "", nextPath);
-      setPathname(nextPath);
-      window.scrollTo({ top: 0 });
+      window.history.pushState({}, '', nextPath)
+      setPathname(nextPath)
+      window.scrollTo({ top: 0 })
     },
-    [pathname]
-  );
+    [pathname],
+  )
 
-  const value = useMemo(() => ({ pathname, navigate }), [navigate, pathname]);
+  const value = useMemo(() => ({ pathname, navigate }), [navigate, pathname])
 
-  return <RouterContext.Provider value={value}>{children}</RouterContext.Provider>;
+  return (
+    <RouterContext.Provider value={value}>{children}</RouterContext.Provider>
+  )
 }
 
 export function useLocation() {
-  const context = useContext(RouterContext);
-  if (!context) throw new Error("useLocation must be used within RouterProvider");
-  return { pathname: context.pathname };
+  const context = useContext(RouterContext)
+  if (!context)
+    throw new Error('useLocation must be used within RouterProvider')
+  return { pathname: context.pathname }
 }
 
 export function Link({ to, onClick, children, ...props }: LinkProps) {
-  const context = useContext(RouterContext);
+  const context = useContext(RouterContext)
 
   return (
     <a
       {...props}
       href={to}
       onClick={(event) => {
-        onClick?.(event);
+        onClick?.(event)
 
         if (
           event.defaultPrevented ||
@@ -73,14 +85,14 @@ export function Link({ to, onClick, children, ...props }: LinkProps) {
           event.shiftKey ||
           props.target
         ) {
-          return;
+          return
         }
 
-        event.preventDefault();
-        context?.navigate(to);
+        event.preventDefault()
+        context?.navigate(to)
       }}
     >
       {children}
     </a>
-  );
+  )
 }

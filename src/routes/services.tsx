@@ -1,39 +1,48 @@
-import { Link } from "@/lib/router";
-import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/i18n/LanguageProvider";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import { Code, Smartphone, Palette, Megaphone, ArrowRight, Check } from "lucide-react";
-import type { TranslationKey } from "@/i18n/translations";
+import { Link } from '@/lib/router'
+import { useLanguage } from '@/i18n/LanguageProvider'
+import {
+  Code,
+  Smartphone,
+  Palette,
+  Megaphone,
+  ArrowRight,
+  Check,
+} from 'lucide-react'
+import type { TranslationKey } from '@/i18n/translations'
 
-import serviceDesign from "@/assets/service-design.jpg";
-import serviceMarketing from "@/assets/service-marketing.jpg";
-import serviceMobile from "@/assets/service-mobile.jpg";
-import serviceWebdev from "@/assets/service-webdev.jpg";
+import serviceDesign from '@/assets/service-design.jpg'
+import serviceMarketing from '@/assets/service-marketing.jpg'
+import serviceMobile from '@/assets/service-mobile.jpg'
+import serviceWebdev from '@/assets/service-webdev.jpg'
 
 const services = [
-  { icon: Code, key: "webdev", featureCount: 6, image: serviceWebdev },
-  { icon: Smartphone, key: "mobile", featureCount: 6, image: serviceMobile },
-  { icon: Palette, key: "design", featureCount: 6, image: serviceDesign },
-  { icon: Megaphone, key: "marketing", featureCount: 6, image: serviceMarketing },
-] as const;
+  { icon: Code, key: 'webdev', featureCount: 6, image: serviceWebdev },
+  { icon: Smartphone, key: 'mobile', featureCount: 6, image: serviceMobile },
+  { icon: Palette, key: 'design', featureCount: 6, image: serviceDesign },
+  {
+    icon: Megaphone,
+    key: 'marketing',
+    featureCount: 6,
+    image: serviceMarketing,
+  },
+] as const
 
 export default function ServicesPage() {
-  const { t } = useLanguage();
-  const scrollRef = useScrollAnimation();
+  const { t } = useLanguage()
 
   return (
-    <div className="pt-20 min-h-screen" ref={scrollRef}>
+    <div className="min-h-screen">
       <section className="section-padding scroll-fade">
         <div className="mx-auto max-w-4xl text-center">
           <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20 mb-6">
-            {t("services.badge")}
+            {t('services.badge')}
           </span>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
-            {t("services.title1")}{" "}
-            <span className="gradient-text">{t("services.highlight")}</span>
+            {t('services.title1')}{' '}
+            <span className="gradient-text">{t('services.highlight')}</span>
           </h1>
           <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {t("services.subtitle")}
+            {t('services.subtitle')}
           </p>
         </div>
       </section>
@@ -43,7 +52,7 @@ export default function ServicesPage() {
           {services.map((service, index) => (
             <div
               key={service.key}
-              className={`scroll-fade flex flex-col lg:flex-row gap-10 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}
+              className={`scroll-fade flex flex-col lg:flex-row gap-10 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
             >
               <div className="flex-1">
                 <div className="w-14 h-14 rounded-xl gradient-bg flex items-center justify-center mb-5">
@@ -57,16 +66,17 @@ export default function ServicesPage() {
                 </p>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                   {Array.from({ length: service.featureCount }, (_, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <li
+                      key={i}
+                      className="flex items-center gap-2 text-sm text-muted-foreground"
+                    >
                       <Check className="h-4 w-4 text-primary shrink-0" />
                       {t(`services.${service.key}.f${i + 1}` as TranslationKey)}
                     </li>
                   ))}
                 </ul>
-                <Link to="/contact">
-                  <Button variant="hero">
-                    {t("services.cta")} <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                <Link to="/contact" className="action-primary">
+                  {t('services.cta')} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </div>
               <div className="flex-1 w-full">
@@ -89,5 +99,5 @@ export default function ServicesPage() {
         </div>
       </section>
     </div>
-  );
+  )
 }
